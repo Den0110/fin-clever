@@ -21,6 +21,8 @@ class FinColor {
   static const Color darkBlue = Color(0xFF03314B);
   static const Color green = Color(0xFF34AA44);
   static const Color red = Color(0xFFE6492D);
+  static const Color secondaryText = Color(0x66222222);
+  static const Color iconBg = Color(0x1A000000);
 
   static const LinearGradient mainGradient = LinearGradient(
     begin: Alignment.topCenter,
@@ -39,9 +41,9 @@ class FinFont {
 }
 
 class FinDimen {
-  static const appBarBorderRadius = Radius.circular(0);
-
   static const vertical = 8.0;
   static const horizontal = 16.0;
   static const statusBarHeight = 36.0;
+
+  static const buttonPadding = 64.0;
 }
