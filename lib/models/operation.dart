@@ -51,7 +51,7 @@ class Operation extends ChangeNotifier {
   double value = 0.0;
   String category = "";
   int accountId = -1;
-  @JsonKey(fromJson: _dateFromJson, toJson: _dateToJson)
+  @JsonKey(fromJson: MyDateUtils.dateFromJson, toJson: MyDateUtils.dateToJson)
   DateTime date = DateTime.now();
   String place = "";
   String note = "";
@@ -100,11 +100,6 @@ class Operation extends ChangeNotifier {
     date = date.copyWith(year: d.year, month: d.month, day: d.day);
     notifyListeners();
   }
-
-  static DateTime _dateFromJson(int int) =>
-      DateTime.fromMillisecondsSinceEpoch(int);
-
-  static int _dateToJson(DateTime time) => time.millisecondsSinceEpoch;
 
   @override
   String toString() {

@@ -12,7 +12,7 @@ Operation _$OperationFromJson(Map<String, dynamic> json) => Operation(
       (json['value'] as num).toDouble(),
       json['category'] as String,
       json['accountId'] as int,
-      Operation._dateFromJson(json['date'] as int),
+      MyDateUtils.dateFromJson(json['date'] as int),
       json['place'] as String,
       json['note'] as String,
     )..account = json['account'] == null
@@ -26,7 +26,7 @@ Map<String, dynamic> _$OperationToJson(Operation instance) {
     'value': instance.value,
     'category': instance.category,
     'accountId': instance.accountId,
-    'date': Operation._dateToJson(instance.date),
+    'date': MyDateUtils.dateToJson(instance.date),
     'place': instance.place,
     'note': instance.note,
   };
