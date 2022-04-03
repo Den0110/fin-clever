@@ -1,7 +1,8 @@
 import 'package:fin_clever/models/operation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../constants.dart';
+import '../utils/constants.dart';
+import 'options_dialog.dart';
 
 class DayEntry {
   final String date;
@@ -11,9 +12,10 @@ class DayEntry {
 }
 
 class DayOfOperationsItem extends StatelessWidget {
-  const DayOfOperationsItem({Key? key, required this.dayEntry})
+  const DayOfOperationsItem({Key? key, required this.dayEntry, required this.onDelete})
       : super(key: key);
 
+  final Function onDelete;
   final DayEntry dayEntry;
 
   @override
@@ -41,7 +43,17 @@ class DayOfOperationsItem extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: dayEntry.operations.length,
-                itemBuilder: (c, i) => operation(dayEntry.operations[i]),
+                itemBuilder: (c, i) => GestureDetector(
+                  behavior: HitTestBehavior.opaque,
+                  onTap: () async {
+                    final options = ['Удалить'];
+                    final selected = await showOptionsDialog(context, options);
+                    switch(selected){
+                      case 0: onDelete(dayEntry.operations[i].id);
+                    }
+                  },
+                  child: operation(dayEntry.operations[i]),
+                ),
                 separatorBuilder: (c, i) => divider,
               ),
             ),

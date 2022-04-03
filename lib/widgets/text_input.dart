@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../utils/constants.dart';
 
 class TextInput extends StatelessWidget {
   const TextInput(
       {Key? key,
       required this.icon,
       required this.hint,
-      required this.onChanged})
+      required this.onChanged,
+      this.keyboardType = TextInputType.text})
       : super(key: key);
 
   final IconData icon;
   final String hint;
   final ValueChanged<String> onChanged;
+  final TextInputType keyboardType;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class TextInput extends StatelessWidget {
                 textAlign: TextAlign.start,
                 cursorColor: FinColor.darkBlue,
                 onChanged: onChanged,
+                keyboardType: keyboardType,
                 decoration: InputDecoration(
                   isDense: true,
                   border: InputBorder.none,

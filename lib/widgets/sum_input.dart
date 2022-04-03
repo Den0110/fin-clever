@@ -1,5 +1,6 @@
+import 'package:fin_clever/utils/formatters.dart';
 import 'package:flutter/material.dart';
-import '../constants.dart';
+import '../utils/constants.dart';
 
 class SumInput extends StatelessWidget {
   const SumInput({Key? key, required this.onSumChanged}) : super(key: key);

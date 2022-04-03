@@ -1,4 +1,4 @@
-import 'package:fin_clever/ext.dart';
+import 'package:fin_clever/utils/date.dart';
 import 'package:flutter/material.dart';
 import 'package:json_annotation/json_annotation.dart';
 import '../fin_clever_icons_icons.dart';

@@ -1,7 +1,7 @@
 import 'package:fin_clever/models/account.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../constants.dart';
+import '../utils/constants.dart';
 
 class CatEntry {
   final String date;
@@ -27,7 +27,6 @@ class CatOfAccountsItem extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisSize: MainAxisSize.max,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -36,12 +35,16 @@ class CatOfAccountsItem extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 16),
-              child: ListView.separated(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: dayEntry.accounts.length,
-                itemBuilder: (c, i) => account(dayEntry.accounts[i]),
-                separatorBuilder: (c, i) => divider,
+              child: MediaQuery.removePadding(
+                removeTop: true,
+                context: context,
+                child: ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: dayEntry.accounts.length,
+                  itemBuilder: (c, i) => account(dayEntry.accounts[i]),
+                  separatorBuilder: (c, i) => divider,
+                ),
               ),
             ),
           ],

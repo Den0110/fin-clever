@@ -7,12 +7,11 @@ class OperationService extends ApiService {
   Future<bool> createOperation(Operation operation) async {
     debugPrint(jsonEncode(operation));
     try {
+      var dio = await getDio();
       var response = await dio.post(
         '/operations',
         data: jsonEncode(operation),
       );
-      debugPrint('Response status: ${response.statusCode}');
-      debugPrint('Response body: ${response.data}');
       return response.statusCode == 201;
     } catch (e) {
       debugPrint(e.toString());
@@ -21,9 +20,14 @@ class OperationService extends ApiService {
   }
 
   Future<List<Operation>> loadOperations() async {
+    var dio = await getDio();
     var response = await dio.get('/operations');
-    debugPrint('Response status: ${response.statusCode}');
-    debugPrint('Response body: ${response.data}');
     return List<Operation>.from(response.data.map((i) => Operation.fromJson(i)));
+  }
+
+  Future<bool> deleteOperation(int operationId) async {
+    var dio = await getDio();
+    var response = await dio.delete('/operations/$operationId');
+    return response.statusCode == 204;
   }
 }
