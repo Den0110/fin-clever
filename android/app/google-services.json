@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "420768718928",
+    "project_id": "finclever-cec82",
+    "storage_bucket": "finclever-cec82.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420768718928:android:9cb44655ac72cff5c1f155",
+        "android_client_info": {
+          "package_name": "com.example.fin_clever"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420768718928-42s7lglc3dv9d2328ar7ve2hqr7nk7m5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fin_clever",
+            "certificate_hash": "5e18213bf5b39a7c22dc07b0d9e9225b688776c2"
+          }
+        },
+        {
+          "client_id": "420768718928-urr29s5cjniap5bonddv8ti0ekdtiqk1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkOfTpl2F1z1JTmPX0sLSUzLIhvG4gyAg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420768718928-urr29s5cjniap5bonddv8ti0ekdtiqk1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

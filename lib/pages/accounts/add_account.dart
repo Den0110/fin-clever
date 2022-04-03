@@ -1,14 +1,16 @@
 import 'package:fin_clever/fin_clever_icons_icons.dart';
 import 'package:fin_clever/models/account.dart';
 import 'package:fin_clever/services/account_service.dart';
-import 'package:fin_clever/widgets/appbar.dart';
+import 'package:fin_clever/utils/helper.dart';
+import 'package:fin_clever/widgets/title_appbar.dart';
 import 'package:fin_clever/widgets/select_account_type_dialog.dart';
 import 'package:fin_clever/widgets/selectable.dart';
 import 'package:fin_clever/widgets/sum_input.dart';
 import 'package:fin_clever/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../constants.dart';
+import '../../utils/constants.dart';
+import '../../widgets/button.dart';
 
 class AddAccountPage extends StatefulWidget {
   const AddAccountPage({Key? key}) : super(key: key);
@@ -69,21 +71,10 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       Container(
                         margin: const EdgeInsets.only(top: 16),
                         width: double.infinity,
-                        child: ElevatedButton(
-                          child: Text(
-                            'Сохранить',
-                            style: FinFont.semibold
-                                .copyWith(fontSize: 14, color: Colors.white),
-                          ),
+                        child: button(
+                          text: 'Сохранить',
                           onPressed: () =>
                               {saveAccount(context.read<Account>())},
-                          style: ElevatedButton.styleFrom(
-                            primary: FinColor.mainColor,
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
                         ),
                       ),
                     ],
@@ -99,15 +90,19 @@ class _AddAccountPageState extends State<AddAccountPage> {
 
   void saveAccount(Account account) async {
     if (account.name.isEmpty) {
-      _showToast('Выберите название счета');
+      showToast(context, 'Выберите название счета');
+      return;
+    }
+
+    if (account.balance < 0) {
+      showToast(context, 'Некорректная начальная сумма');
       return;
     }
 
     final res = await _accountService.createAccount(account);
-    _showToast(res ? 'Счет создан' : 'Неизвестная ошибка');
-  }
-
-  _showToast(String text) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    showToast(context, res ? 'Счет создан' : 'Неизвестная ошибка');
+    if (res) {
+      Navigator.maybePop(context, true);
+    }
   }
 }

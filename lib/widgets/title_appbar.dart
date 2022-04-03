@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart';
+import '../utils/constants.dart';
 
 class TitleAppBar extends StatelessWidget {
   const TitleAppBar({
     Key? key,
     required this.title,
+    this.getResult
   }) : super(key: key);
 
   final String title;
+  final bool Function()? getResult;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class TitleAppBar extends StatelessWidget {
             if (canPop) ...[
               IconButton(
                 onPressed: () {
-                  Navigator.maybePop(context);
+                  Navigator.maybePop(context, getResult?.call());
                 },
                 constraints: const BoxConstraints(),
                 padding: EdgeInsets.zero,

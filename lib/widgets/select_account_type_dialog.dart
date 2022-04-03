@@ -3,7 +3,7 @@ import 'package:fin_clever/models/account.dart';
 import 'package:fin_clever/models/operation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import '../constants.dart';
+import '../utils/constants.dart';
 
 Future<void> showSelectAccountTypeDialog(
   BuildContext context,

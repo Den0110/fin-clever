@@ -47,3 +47,18 @@ class FinDimen {
 
   static const buttonPadding = 64.0;
 }
+
+class FinText {
+  static const signIn = "Sign In";
+  static const textSignInGoogle = "Войти через Google";
+}
+
+class FinStyle {
+  static ButtonStyle buttonStyle = ElevatedButton.styleFrom(
+    primary: FinColor.mainColor,
+    onPrimary: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(30.0),
+    ),
+  );
+}

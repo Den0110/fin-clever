@@ -1,11 +1,11 @@
-import 'package:fin_clever/ext.dart';
+import 'package:fin_clever/utils/date.dart';
 import 'package:fin_clever/fin_clever_icons_icons.dart';
 import 'package:fin_clever/models/account.dart';
-import 'package:fin_clever/models/accounts.dart';
 import 'package:fin_clever/models/operation.dart';
 import 'package:fin_clever/services/account_service.dart';
 import 'package:fin_clever/services/operation_service.dart';
-import 'package:fin_clever/widgets/appbar.dart';
+import 'package:fin_clever/utils/helper.dart';
+import 'package:fin_clever/widgets/title_appbar.dart';
 import 'package:fin_clever/widgets/operation_category_selector.dart';
 import 'package:fin_clever/widgets/select_account_dialog.dart';
 import 'package:fin_clever/widgets/select_date_dialog.dart';
@@ -14,16 +14,19 @@ import 'package:fin_clever/widgets/sum_input.dart';
 import 'package:fin_clever/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../constants.dart';
 
-class AddIncomePage extends StatefulWidget {
-  const AddIncomePage({Key? key}) : super(key: key);
+import '../../models/provider/accounts.dart';
+import '../../utils/constants.dart';
+import '../../widgets/button.dart';
+
+class AddExpensePage extends StatefulWidget {
+  const AddExpensePage({Key? key}) : super(key: key);
 
   @override
-  State<AddIncomePage> createState() => _AddIncomePageState();
+  State<AddExpensePage> createState() => _AddExpensePageState();
 }
 
-class _AddIncomePageState extends State<AddIncomePage> {
+class _AddExpensePageState extends State<AddExpensePage> {
   final _operationService = OperationService();
   final _accountService = AccountService();
 
@@ -40,13 +43,13 @@ class _AddIncomePageState extends State<AddIncomePage> {
     final realAccounts = context.watch<Accounts>().accounts;
 
     return ChangeNotifierProvider(create: (BuildContext context) {
-      return Operation.create(OperationType.income);
+      return Operation.create(OperationType.expense);
     }, builder: (context, w) {
       return Scaffold(
         // resizeToAvoidBottomInset: false,
         body: Column(
           children: [
-            const TitleAppBar(title: 'Добавить доход'),
+            const TitleAppBar(title: 'Добавить расход'),
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
@@ -54,7 +57,7 @@ class _AddIncomePageState extends State<AddIncomePage> {
                     left: FinDimen.horizontal,
                     top: FinDimen.horizontal,
                     right: FinDimen.horizontal,
-                    bottom: FinDimen.buttonPadding,
+                    bottom: FinDimen.horizontal,
                   ),
                   child: Column(
                     children: <Widget>[
@@ -62,10 +65,10 @@ class _AddIncomePageState extends State<AddIncomePage> {
                         context.read<Operation>().value = v;
                       }),
                       OperationCategorySelector(
-                        categories: incomeCategories,
+                        categories: expenseCategories,
                       ),
                       Selectable(
-                          icon: FinCleverIcons.ic_wallet,
+                          icon: FinCleverIcons.ic_account_category,
                           text: _getAccountName(
                             context,
                             realAccounts,
@@ -84,6 +87,13 @@ class _AddIncomePageState extends State<AddIncomePage> {
                         },
                       ),
                       TextInput(
+                        icon: FinCleverIcons.ic_place_of_payment,
+                        hint: 'Место платежа',
+                        onChanged: (s) {
+                          context.read<Operation>().place = s;
+                        },
+                      ),
+                      TextInput(
                         icon: FinCleverIcons.ic_comment,
                         hint: 'Комментрарий',
                         onChanged: (s) {
@@ -93,21 +103,10 @@ class _AddIncomePageState extends State<AddIncomePage> {
                       Container(
                         margin: const EdgeInsets.only(top: 16),
                         width: double.infinity,
-                        child: ElevatedButton(
-                          child: Text(
-                            'Сохранить',
-                            style: FinFont.semibold
-                                .copyWith(fontSize: 14, color: Colors.white),
-                          ),
+                        child: button(
+                          text: 'Сохранить',
                           onPressed: () =>
                               {saveOperation(context.read<Operation>())},
-                          style: ElevatedButton.styleFrom(
-                            primary: FinColor.mainColor,
-                            onPrimary: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30.0),
-                            ),
-                          ),
                         ),
                       ),
                     ],
@@ -138,25 +137,26 @@ class _AddIncomePageState extends State<AddIncomePage> {
 
   void saveOperation(Operation operation) async {
     if (operation.value == 0) {
-      _showToast('Введите сумму');
+      showToast(context, 'Введите сумму');
+      return;
+    }
+
+    if (operation.value < 0) {
+      showToast(context, 'Введите неотрицательную сумму');
       return;
     }
 
     if (operation.category.isEmpty) {
-      _showToast('Выберите категорию');
+      showToast(context, 'Выберите категорию');
       return;
     }
 
     if (operation.accountId == -1) {
-      _showToast('Выберите счет зачисления');
+      showToast(context, 'Выберите счет списания');
       return;
     }
 
     final res = await _operationService.createOperation(operation);
-    _showToast(res ? 'Доход сохранен' : 'Неизвестная ошибка');
-  }
-
-  _showToast(String text) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(text)));
+    showToast(context, res ? 'Расход сохранен' : 'Неизвестная ошибка');
   }
 }
