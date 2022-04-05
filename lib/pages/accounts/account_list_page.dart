@@ -90,9 +90,7 @@ class _AccountListPageState extends State<AccountListPage> {
                 key: _refreshIndicatorKey,
                 displacement: 20,
                 onRefresh: _loadData,
-                child: Expanded(
-                  child: _content(),
-                ),
+                child: _content(),
               ),
             )
           ]),
