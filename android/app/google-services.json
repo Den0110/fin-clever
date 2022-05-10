@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "420768718928-bkgh0v0i6c4iur0123t85chb8qmtv8pq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fin_clever",
+            "certificate_hash": "590830911de4328e9787ea61b559d16f1be35d8d"
+          }
+        },
+        {
           "client_id": "420768718928-urr29s5cjniap5bonddv8ti0ekdtiqk1.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -37,6 +45,57 @@
             {
               "client_id": "420768718928-urr29s5cjniap5bonddv8ti0ekdtiqk1.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "420768718928-vgv4o1r48q1473l2mh1ttclb5i3m3bvp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.finclever"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420768718928:android:2f02c1b52affbecec1f155",
+        "android_client_info": {
+          "package_name": "com.fin_clever.fin_clever"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420768718928-s2nlathk9lmnau27am9rhb4m7mcrng36.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fin_clever.fin_clever",
+            "certificate_hash": "5e18213bf5b39a7c22dc07b0d9e9225b688776c2"
+          }
+        },
+        {
+          "client_id": "420768718928-urr29s5cjniap5bonddv8ti0ekdtiqk1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCkOfTpl2F1z1JTmPX0sLSUzLIhvG4gyAg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420768718928-urr29s5cjniap5bonddv8ti0ekdtiqk1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "420768718928-vgv4o1r48q1473l2mh1ttclb5i3m3bvp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.finclever"
+              }
             }
           ]
         }

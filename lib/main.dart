@@ -6,6 +6,8 @@ import 'package:fin_clever/pages/login_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'models/provider/current_user.dart';
 import 'utils/constants.dart';
@@ -70,6 +72,8 @@ class _FinCleverAppState extends State<FinCleverApp> {
   @override
   initState() {
     super.initState();
+    initializeDateFormatting('ru');
+    Intl.defaultLocale = 'ru';
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       context.read<CurrentUser>().updateUser(AppUser.fromFirebaseUser(user));
       if (user != null) {

@@ -1,4 +1,4 @@
-package com.example.fin_clever
+package com.fin_clever.fin_clever
 
 import io.flutter.embedding.android.FlutterActivity
 

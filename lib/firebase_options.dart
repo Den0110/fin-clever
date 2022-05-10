@@ -56,6 +56,6 @@ class DefaultFirebaseOptions {
     storageBucket: 'finclever-cec82.appspot.com',
     androidClientId: '420768718928-42s7lglc3dv9d2328ar7ve2hqr7nk7m5.apps.googleusercontent.com',
     iosClientId: '420768718928-vgv4o1r48q1473l2mh1ttclb5i3m3bvp.apps.googleusercontent.com',
-    iosBundleId: 'com.example.finclever',
+    iosBundleId: 'com.fin_clever.finclever',
   );
 }

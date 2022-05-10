@@ -6,15 +6,18 @@ part 'app_user.g.dart';
 
 @JsonSerializable()
 class AppUser extends ChangeNotifier {
-  AppUser(this.id, this.name, this.email, this.imageUrl);
+  AppUser(this.id, this.name, this.email, this.imageUrl, this.junkCategories,
+      this.junkLimit);
 
   String id = "";
   String? name;
   String? email;
   String? imageUrl;
+  String? junkCategories;
+  double junkLimit;
 
   String getDisplayName() {
-    if(name?.isNotEmpty == true) {
+    if (name?.isNotEmpty == true) {
       return name ?? "";
     } else {
       return email ?? "";
@@ -26,7 +29,7 @@ class AppUser extends ChangeNotifier {
       return imageUrl ?? "";
     } else {
       var nameForAva = getDisplayName();
-      if(nameForAva.contains(' ')){
+      if (nameForAva.contains(' ')) {
         nameForAva.replaceAll(' ', '+');
       } else {
         nameForAva += '+';
@@ -37,11 +40,24 @@ class AppUser extends ChangeNotifier {
 
   static AppUser? fromFirebaseUser(User? user) {
     if (user == null) return null;
+    return AppUser(user.uid, user.displayName ?? "", user.email ?? "",
+        user.photoURL ?? "", "", 0);
+  }
+
+  AppUser copyWith(
+      {String? id,
+      String? name,
+      String? email,
+      String? imageUrl,
+      String? junkCategories,
+      double? junkLimit}) {
     return AppUser(
-      user.uid,
-      user.displayName ?? "",
-      user.email ?? "",
-      user.photoURL ?? "",
+      id ?? this.id,
+      name ?? this.name,
+      email ?? this.email,
+      imageUrl ?? this.imageUrl,
+      junkCategories ?? this.junkCategories,
+      junkLimit ?? this.junkLimit,
     );
   }
 

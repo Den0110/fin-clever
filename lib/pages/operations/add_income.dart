@@ -39,7 +39,11 @@ class _AddIncomePageState extends State<AddIncomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final realAccounts = context.watch<Accounts>().accounts;
+    final realAccounts = context
+        .watch<Accounts>()
+        .accounts
+        .where((a) => a.type != AccountType.brokerageAccount)
+        .toList();
 
     return ChangeNotifierProvider(create: (BuildContext context) {
       return Operation.create(OperationType.income);
@@ -147,6 +151,18 @@ class _AddIncomePageState extends State<AddIncomePage> {
       showToast(context, 'Выберите счет зачисления');
       return;
     }
+
+    try {
+      var account = context
+          .read<Accounts>()
+          .accounts
+          .firstWhere((a) => a.id == operation.accountId);
+      if (operation.value >= account.balance &&
+          account.type == AccountType.credit) {
+        showToast(context, 'Пополнение больше размера кредита');
+        return;
+      }
+    } catch (e) {}
 
     final res = await _operationService.createOperation(operation);
     showToast(context, res ? 'Доход сохранен' : 'Неизвестная ошибка');

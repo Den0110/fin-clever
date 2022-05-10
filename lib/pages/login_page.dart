@@ -69,6 +69,7 @@ class _LoginPageState extends State<LoginPage> {
                     password = s.trim();
                   });
                 },
+                obscuringEnabled: true,
               ),
             ),
             const Padding(padding: EdgeInsets.only(bottom: 16)),
@@ -109,9 +110,7 @@ class _LoginPageState extends State<LoginPage> {
             await _service.signInWithEmail(email: email, password: password);
             await _userService.login();
           } catch (e) {
-            if (e is FirebaseAuthException) {
-              showToast(context, e.message!);
-            }
+            showToast(context, "Ошибка авторизации, проверьте email и пароль");
           }
         },
       ),
@@ -122,10 +121,15 @@ class _LoginPageState extends State<LoginPage> {
     return SizedBox(
       width: size.width * 0.8,
       child: TextButton(
-        child: Row(children: [
-          Text("Нет аккаунта? ", style: FinFont.regular.copyWith(color: FinColor.darkBlue),),
-          const Text("Зарегистрироваться"),
-        ],),
+        child: Row(
+          children: [
+            Text(
+              "Нет аккаунта? ",
+              style: FinFont.regular.copyWith(color: FinColor.darkBlue),
+            ),
+            const Text("Зарегистрироваться"),
+          ],
+        ),
         onPressed: () async {
           _navigateToSignUp();
         },
@@ -143,9 +147,7 @@ class _LoginPageState extends State<LoginPage> {
             await _service.signInWithGoogle();
             await _userService.login();
           } catch (e) {
-            if (e is FirebaseAuthException) {
-              showToast(context, e.message!);
-            }
+            showToast(context, "Ошибка авторизации, попробуйте войти по email");
           }
         },
       ),
@@ -153,6 +155,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _navigateToSignUp() {
-    Navigator.of(context).push(MaterialPageRoute(builder: (c) => const SignUpPage()));
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (c) => const SignUpPage()));
   }
 }

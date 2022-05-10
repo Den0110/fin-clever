@@ -10,6 +10,7 @@ import 'package:fin_clever/widgets/day_of_operations_item.dart';
 import 'package:fin_clever/widgets/user_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
 import '../../utils/constants.dart';
 import '../../models/provider/accounts.dart';
@@ -31,12 +32,15 @@ class _OperationListPageState extends State<OperationListPage> {
   final OperationService _operationService = OperationService();
   final AccountService _accountService = AccountService();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-      GlobalKey<RefreshIndicatorState>();
+  GlobalKey<RefreshIndicatorState>();
 
   @override
   initState() {
     super.initState();
-    if (context.read<Operations>().operations.isEmpty) {
+    if (context
+        .read<Operations>()
+        .operations
+        .isEmpty) {
       showLoading();
       _loadData();
     }
@@ -64,7 +68,7 @@ class _OperationListPageState extends State<OperationListPage> {
     EasyDebounce.debounce(
       'loading-debouncer',
       const Duration(milliseconds: 300),
-      () {
+          () {
         setState(() {
           isAutoLoading = true;
         });
@@ -76,7 +80,7 @@ class _OperationListPageState extends State<OperationListPage> {
     EasyDebounce.debounce(
       'loading-debouncer',
       const Duration(milliseconds: 100),
-      () {
+          () {
         setState(() {
           isAutoLoading = false;
         });
@@ -90,20 +94,32 @@ class _OperationListPageState extends State<OperationListPage> {
           .loadAccounts()
           .then((v) => {context.read<Accounts>().updateAccounts(v)}),
       _operationService.loadOperations().then((operations) =>
-          {context.read<Operations>().updateOperations(operations)})
+      {context.read<Operations>().updateOperations(operations)})
     ]).then((value) => hideLoading());
   }
 
   @override
   Widget build(BuildContext context) {
-    final days = [];
-    final operations = context.watch<Operations>().operations;
-    groupBy(operations.sortedBy((Operation o) => o.date).reversed,
-        (Operation o) {
-      return o.date.formatDate();
-    }).forEach((key, value) {
-      days.add(DayEntry(key, value));
+    final List<DayEntry> days = [];
+    final operations = context
+        .watch<Operations>()
+        .operations;
+    groupBy(operations
+        .sortedBy((Operation o) => o.date)
+        .reversed,
+            (Operation o) {
+          return DateFormat('yyyyMMdd').format(o.date);
+        }).forEach((key, value) {
+      days.add(DayEntry(DateTime.parse(key), value));
     });
+    var lastMonth = "";
+    for (var i = 0; i < days.length; i++) {
+      var month = DateFormat('MMyyyy').format(days[i].date);
+      if (month != lastMonth) {
+        days[i].isFirstDayOfMonth = true;
+        lastMonth = month;
+      }
+    }
     return Scaffold(
       appBar: userAppBar(context),
       body: Stack(children: [
@@ -174,23 +190,30 @@ class _OperationListPageState extends State<OperationListPage> {
   }
 
   Widget summary() {
-    final operations = context.watch<Operations>().operations;
-    final accounts = context.watch<Accounts>().accounts;
+    final operations = context
+        .watch<Operations>()
+        .operations;
+    final accounts = context
+        .watch<Accounts>()
+        .accounts;
     final withMe = accounts
         .where((e) =>
-            e.type == AccountType.debitCard || e.type == AccountType.cash)
+    e.type == AccountType.debitCard || e.type == AccountType.cash)
         .map((e) => e.balance)
         .sum;
     final thisMonth = operations
-        .where((o) => o.date.month == DateTime.now().month)
+        .where((o) =>
+    o.date.month == DateTime
+        .now()
+        .month)
         .map((o) {
-          switch (o.type) {
-            case OperationType.expense:
-              return -o.value;
-            case OperationType.income:
-              return o.value;
-          }
-        })
+      switch (o.type) {
+        case OperationType.expense:
+          return -o.value;
+        case OperationType.income:
+          return o.value;
+      }
+    })
         .sum
         .toInt();
     return Container(

@@ -117,7 +117,7 @@ class _SignUpPageState extends State<SignUpPage> {
           }
           try {
             await _firebaseService.signUp(email: email, password: password);
-            final user = await _userService.signUp(AppUser("", name, email, ""));
+            final user = await _userService.signUp(AppUser("", name, email, "", "", 0));
             context.read<CurrentUser>().updateUser(user);
             Navigator.maybePop(context);
           } catch (e) {

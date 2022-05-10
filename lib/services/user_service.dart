@@ -11,6 +11,12 @@ class UserService extends ApiService {
     return AppUser.fromJson(response.data);
   }
 
+  Future updateUser(AppUser user) async {
+    var dio = await getDio();
+    var response = await dio.put('/users/me', data: jsonEncode(user));
+    return response.statusCode == 204;
+  }
+
   Future<bool> login() async {
     var dio = await getDio();
     var response = await dio.post('/users/login');

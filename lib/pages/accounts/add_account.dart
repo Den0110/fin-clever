@@ -63,6 +63,7 @@ class _AddAccountPageState extends State<AddAccountPage> {
                       TextInput(
                         icon: FinCleverIcons.ic_initial_amount,
                         hint: 'Начальная сумма',
+                        keyboardType: TextInputType.number,
                         onChanged: (s) {
                           context.read<Account>().balance =
                               double.parse(s.replaceAll(',', '.'));

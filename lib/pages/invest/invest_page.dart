@@ -3,7 +3,6 @@ import 'package:fin_clever/utils/date.dart';
 import 'package:fin_clever/fin_clever_icons_icons.dart';
 import 'package:fin_clever/utils/format.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../models/invest/history_item.dart';
@@ -98,7 +97,19 @@ class _InvestPageState extends State<InvestPage> {
       itemCount: stocks.length + extraWidgetNum,
       itemBuilder: (context, index) {
         if (index == 0) {
-          return caption('История портфеля');
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              caption('История портфеля'),
+              Padding(
+                padding: const EdgeInsets.only(left: 14),
+                child: Text(
+                  " обновляется каждые 5-10 минут",
+                  style: FinFont.regular.copyWith(fontSize: 10),
+                ),
+              )
+            ],
+          );
         } else if (index == 1) {
           return _buildChart();
         } else if (index == 2) {
