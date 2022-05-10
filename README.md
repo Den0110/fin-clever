@@ -41,4 +41,4 @@ Email: `test_pd2022@yandex.ru`
 https://github.com/Den0110/fin-clever-backend
 
 ## Последняя версия
-https://drive.google.com/file/d/1PTWKb4Z5r86QklzqKejTSnp3KWA1rlad/view?usp=sharing
+https://drive.google.com/file/d/1uMHHqmWXsYzURGPk5Ir7nYresB9tnVs2/view?usp=sharing
