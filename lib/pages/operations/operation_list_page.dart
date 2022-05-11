@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:fin_clever/utils/date.dart';
@@ -12,10 +14,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/src/provider.dart';
+import '../../fin_clever_icons_icons.dart';
+import '../../models/potential_profit_request.dart';
+import '../../models/provider/current_user.dart';
+import '../../services/portfolio_service.dart';
 import '../../utils/constants.dart';
 import '../../models/provider/accounts.dart';
 import '../../models/provider/operations.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../widgets/loading.dart';
 import 'add_expense.dart';
 import 'add_income.dart';
@@ -31,16 +36,16 @@ class _OperationListPageState extends State<OperationListPage> {
   bool isAutoLoading = false;
   final OperationService _operationService = OperationService();
   final AccountService _accountService = AccountService();
+  final PortfolioService _portfolioService = PortfolioService();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
-  GlobalKey<RefreshIndicatorState>();
+      GlobalKey<RefreshIndicatorState>();
+
+  List<DayEntry> dayEntries = List<DayEntry>.empty();
 
   @override
   initState() {
     super.initState();
-    if (context
-        .read<Operations>()
-        .operations
-        .isEmpty) {
+    if (context.read<Operations>().operations.isEmpty) {
       showLoading();
       _loadData();
     }
@@ -68,7 +73,7 @@ class _OperationListPageState extends State<OperationListPage> {
     EasyDebounce.debounce(
       'loading-debouncer',
       const Duration(milliseconds: 300),
-          () {
+      () {
         setState(() {
           isAutoLoading = true;
         });
@@ -80,7 +85,7 @@ class _OperationListPageState extends State<OperationListPage> {
     EasyDebounce.debounce(
       'loading-debouncer',
       const Duration(milliseconds: 100),
-          () {
+      () {
         setState(() {
           isAutoLoading = false;
         });
@@ -88,38 +93,92 @@ class _OperationListPageState extends State<OperationListPage> {
     );
   }
 
+  static final recommendations = [
+    'Не потратив так много на {cat}, вы могли бы заработать {investSum}, инвестируя в растущие компании',
+    'Вы упустили доход {investSum}, потратя деньги на {cat}',
+    'Могли вложить {sum} в акции и заработать {investSum}',
+    'Фондовый рынок мог бы превратить Ваши {sum} в {investSum}'
+  ];
+
   Future<void> _loadData() {
     return Future.wait([
       _accountService
           .loadAccounts()
           .then((v) => {context.read<Accounts>().updateAccounts(v)}),
-      _operationService.loadOperations().then((operations) =>
-      {context.read<Operations>().updateOperations(operations)})
+      _operationService.loadOperations().then((operations) async {
+        context.read<Operations>().updateOperations(operations);
+        final List<DayEntry> days = [];
+        groupBy(operations.sortedBy((Operation o) => o.date).reversed,
+            (Operation o) {
+          return DateFormat('yyyyMMdd').format(o.date);
+        }).forEach((key, value) {
+          days.add(DayEntry(DateTime.parse(key), value));
+        });
+        var lastMonth = "";
+        for (var i = 0; i < days.length; i++) {
+          var month = DateFormat('MMyyyy').format(days[i].date);
+          if (month != lastMonth) {
+            days[i].isFirstDayOfMonth = true;
+            days[i].recommendation = await _buildRecommendation(days[i]);
+            lastMonth = month;
+          }
+        }
+        setState(() {
+          dayEntries = days;
+        });
+      })
     ]).then((value) => hideLoading());
+  }
+
+  Future<String?> _buildRecommendation(DayEntry day) async {
+    if (!day.isFirstDayOfMonth) return null;
+
+    var user = context.read<CurrentUser>().user;
+    final operations = context.read<Operations>().operations;
+    var junkCats = user?.junkCategories?.split(',');
+    var junkLimit = user?.junkLimit;
+
+    if (junkCats == null ||
+        junkCats.isEmpty ||
+        junkLimit == null ||
+        junkLimit == 0) {
+      return null;
+    }
+
+    var junkExpenses = operations.where((e) =>
+        e.type == OperationType.expense &&
+        e.date.formatMY() == day.date.formatMY() &&
+        junkCats.contains(e.category));
+
+    if (junkExpenses.isEmpty) return null;
+
+    var sum = junkExpenses.map((e) => e.value).reduce((a, b) => a + b);
+    if (sum < junkLimit) return null;
+    var investSum = .0;
+
+    try {
+      investSum = await _portfolioService
+          .getPotentialProfit(PotentialProfitRequest(day.date, sum));
+    } catch (e) {
+      return null;
+    }
+
+    var cats = junkCats
+        .map((e) => expenseCategories
+            .firstWhere((c) => c.key == e,
+                orElse: () => OperationCategory("", "", FinCleverIcons.ic_name))
+            .name)
+        .where((e) => e.isNotEmpty);
+
+    return recommendations[
+            Random(day.operations.length).nextInt(recommendations.length)]
+        .replaceFirst('{sum}', sum.formatMoney())
+        .replaceFirst('{investSum}', investSum.formatMoney())
+        .replaceFirst('{cat}', cats.join(', ').toLowerCase());
   }
 
   @override
   Widget build(BuildContext context) {
-    final List<DayEntry> days = [];
-    final operations = context
-        .watch<Operations>()
-        .operations;
-    groupBy(operations
-        .sortedBy((Operation o) => o.date)
-        .reversed,
-            (Operation o) {
-          return DateFormat('yyyyMMdd').format(o.date);
-        }).forEach((key, value) {
-      days.add(DayEntry(DateTime.parse(key), value));
-    });
-    var lastMonth = "";
-    for (var i = 0; i < days.length; i++) {
-      var month = DateFormat('MMyyyy').format(days[i].date);
-      if (month != lastMonth) {
-        days[i].isFirstDayOfMonth = true;
-        lastMonth = month;
-      }
-    }
     return Scaffold(
       appBar: userAppBar(context),
       body: Stack(children: [
@@ -137,13 +196,13 @@ class _OperationListPageState extends State<OperationListPage> {
                     FinDimen.horizontal,
                     86,
                   ),
-                  itemCount: days.length + 1,
+                  itemCount: dayEntries.length + 1,
                   itemBuilder: (context, index) {
                     if (index == 0) {
                       return summary();
                     } else {
                       return DayOfOperationsItem(
-                        dayEntry: days[index - 1],
+                        dayEntry: dayEntries[index - 1],
                         onDelete: (operationId) async {
                           final isDeleted = await _operationService
                               .deleteOperation(operationId);
@@ -190,30 +249,23 @@ class _OperationListPageState extends State<OperationListPage> {
   }
 
   Widget summary() {
-    final operations = context
-        .watch<Operations>()
-        .operations;
-    final accounts = context
-        .watch<Accounts>()
-        .accounts;
+    final operations = context.watch<Operations>().operations;
+    final accounts = context.watch<Accounts>().accounts;
     final withMe = accounts
         .where((e) =>
-    e.type == AccountType.debitCard || e.type == AccountType.cash)
+            e.type == AccountType.debitCard || e.type == AccountType.cash)
         .map((e) => e.balance)
         .sum;
     final thisMonth = operations
-        .where((o) =>
-    o.date.month == DateTime
-        .now()
-        .month)
+        .where((o) => o.date.formatMY() == DateTime.now().formatMY())
         .map((o) {
-      switch (o.type) {
-        case OperationType.expense:
-          return -o.value;
-        case OperationType.income:
-          return o.value;
-      }
-    })
+          switch (o.type) {
+            case OperationType.expense:
+              return -o.value;
+            case OperationType.income:
+              return o.value;
+          }
+        })
         .sum
         .toInt();
     return Container(

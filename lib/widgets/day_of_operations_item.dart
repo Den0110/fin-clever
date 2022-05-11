@@ -1,16 +1,8 @@
-import 'dart:math';
-
 import 'package:fin_clever/fin_clever_icons_icons.dart';
 import 'package:fin_clever/models/operation.dart';
-import 'package:fin_clever/models/potential_profit_request.dart';
-import 'package:fin_clever/models/provider/current_user.dart';
 import 'package:fin_clever/utils/date.dart';
-import 'package:fin_clever/utils/format.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import '../models/provider/operations.dart';
-import '../services/portfolio_service.dart';
 import '../utils/constants.dart';
 import 'options_dialog.dart';
 
@@ -18,96 +10,24 @@ class DayEntry {
   DateTime date;
   final List<Operation> operations;
   bool isFirstDayOfMonth = false;
+  String? recommendation;
 
   DayEntry(this.date, this.operations);
 }
 
-class DayOfOperationsItem extends StatefulWidget {
+class DayOfOperationsItem extends StatelessWidget {
   const DayOfOperationsItem(
       {Key? key, required this.dayEntry, required this.onDelete})
       : super(key: key);
-
-  static final PortfolioService portfolioService = PortfolioService();
-
-  static final recommendations = [
-    'Не потратив так много на {cat}, вы могли бы заработать {investSum}, инвестируя в растущие компании',
-    'Вы упустили доход {investSum}, потратя деньги на {cat}',
-    'Могли вложить {sum} в акции и заработать {investSum}',
-    'Фондовый рынок мог бы превратить Ваши {sum} в {investSum}'
-  ];
 
   final Function onDelete;
   final DayEntry dayEntry;
 
   @override
-  State<DayOfOperationsItem> createState() => _DayOfOperationsItemState();
-}
-
-class _DayOfOperationsItemState extends State<DayOfOperationsItem> {
-  String? recommendation;
-
-  @override
-  initState() {
-    super.initState();
-    Future.delayed(Duration.zero, getRecs);
-  }
-
-  void getRecs() {
-    buildRecommendation(context, widget.dayEntry).then((p) => {
-          setState(() {
-            recommendation = p;
-          })
-        });
-  }
-
-  Future<String?> buildRecommendation(
-      BuildContext context, DayEntry day) async {
-    if (!day.isFirstDayOfMonth) return null;
-
-    var user = context.read<CurrentUser>().user;
-    final operations = context.read<Operations>().operations;
-    var junkCats = user?.junkCategories?.split(',');
-    var junkLimit = user?.junkLimit;
-
-    if (junkCats == null ||
-        junkCats.isEmpty ||
-        junkLimit == null ||
-        junkLimit == 0) {
-      return null;
-    }
-
-    var junkExpenses = operations.where((e) =>
-        e.type == OperationType.expense &&
-        e.date.formatMY() == day.date.formatMY() &&
-        junkCats.contains(e.category));
-
-    if (junkExpenses.isEmpty) return null;
-
-    var sum = junkExpenses.map((e) => e.value).reduce((a, b) => a + b);
-    if (sum < junkLimit) return null;
-
-    var investSum = await DayOfOperationsItem.portfolioService
-        .getPotentialProfit(PotentialProfitRequest(day.date, sum));
-
-    var cats = junkCats
-        .map((e) => expenseCategories
-            .firstWhere((c) => c.key == e,
-                orElse: () => OperationCategory("", "", FinCleverIcons.ic_name))
-            .name)
-        .where((e) => e.isNotEmpty);
-
-    return DayOfOperationsItem.recommendations[
-            Random(day.operations.length).nextInt(DayOfOperationsItem.recommendations.length)]
-        .replaceFirst('{sum}', sum.formatMoney())
-        .replaceFirst('{investSum}', investSum.formatMoney())
-        .replaceFirst('{cat}', cats.join(', ').toLowerCase());
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        if (recommendation != null) ...[
+        if (dayEntry.recommendation != null) ...[
           Card(
             margin: const EdgeInsets.only(top: 4, bottom: 4),
             shape: const RoundedRectangleBorder(
@@ -133,14 +53,14 @@ class _DayOfOperationsItemState extends State<DayOfOperationsItem> {
                         ),
                       ),
                       Text(
-                        widget.dayEntry.date.formatMY(),
+                        dayEntry.date.formatMY(),
                         style: FinFont.bold
                             .copyWith(fontSize: 12, color: FinColor.mainColor),
                       ),
                     ],
                   ),
                   Text(
-                    recommendation!,
+                    dayEntry.recommendation!,
                     style: FinFont.regular.copyWith(fontSize: 12),
                   ),
                 ],
@@ -162,7 +82,7 @@ class _DayOfOperationsItemState extends State<DayOfOperationsItem> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.dayEntry.date.formatDate(),
+                  dayEntry.date.formatDate(),
                   style: FinFont.bold.copyWith(fontSize: 12),
                 ),
                 Padding(
@@ -170,7 +90,7 @@ class _DayOfOperationsItemState extends State<DayOfOperationsItem> {
                   child: ListView.separated(
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: widget.dayEntry.operations.length,
+                    itemCount: dayEntry.operations.length,
                     itemBuilder: (c, i) => GestureDetector(
                       behavior: HitTestBehavior.opaque,
                       onTap: () async {
@@ -179,10 +99,10 @@ class _DayOfOperationsItemState extends State<DayOfOperationsItem> {
                             await showOptionsDialog(context, options);
                         switch (selected) {
                           case 0:
-                            widget.onDelete(widget.dayEntry.operations[i].id);
+                            onDelete(dayEntry.operations[i].id);
                         }
                       },
-                      child: operation(widget.dayEntry.operations[i]),
+                      child: operation(dayEntry.operations[i]),
                     ),
                     separatorBuilder: (c, i) => divider,
                   ),
