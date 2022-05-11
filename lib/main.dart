@@ -10,6 +10,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'models/provider/current_user.dart';
+import 'models/provider/day_entries.dart';
 import 'utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,6 +47,9 @@ void main() async {
         ),
         ChangeNotifierProvider<Operations>(
           create: (BuildContext context) => Operations(),
+        ),
+        ChangeNotifierProvider<DayEntries>(
+          create: (BuildContext context) => DayEntries(),
         ),
         ChangeNotifierProvider<Accounts>(
           create: (BuildContext context) => Accounts(),

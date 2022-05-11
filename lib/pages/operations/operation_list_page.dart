@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
+import 'package:fin_clever/models/provider/day_entries.dart';
 import 'package:fin_clever/utils/date.dart';
 import 'package:fin_clever/models/account.dart';
 import 'package:fin_clever/models/operation.dart';
@@ -39,8 +40,6 @@ class _OperationListPageState extends State<OperationListPage> {
   final PortfolioService _portfolioService = PortfolioService();
   final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
       GlobalKey<RefreshIndicatorState>();
-
-  List<DayEntry> dayEntries = List<DayEntry>.empty();
 
   @override
   initState() {
@@ -123,9 +122,7 @@ class _OperationListPageState extends State<OperationListPage> {
             lastMonth = month;
           }
         }
-        setState(() {
-          dayEntries = days;
-        });
+        context.read<DayEntries>().updateDayEntries(days);
       })
     ]).then((value) => hideLoading());
   }
@@ -179,6 +176,7 @@ class _OperationListPageState extends State<OperationListPage> {
 
   @override
   Widget build(BuildContext context) {
+    var dayEntries = context.read<DayEntries>().dayEntries;
     return Scaffold(
       appBar: userAppBar(context),
       body: Stack(children: [
