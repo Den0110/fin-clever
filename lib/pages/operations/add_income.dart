@@ -157,7 +157,7 @@ class _AddIncomePageState extends State<AddIncomePage> {
           .read<Accounts>()
           .accounts
           .firstWhere((a) => a.id == operation.accountId);
-      if (operation.value >= account.balance &&
+      if (operation.value > account.balance &&
           account.type == AccountType.credit) {
         showToast(context, 'Пополнение больше размера кредита');
         return;

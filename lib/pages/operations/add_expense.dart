@@ -165,9 +165,8 @@ class _AddExpensePageState extends State<AddExpensePage> {
           .read<Accounts>()
           .accounts
           .firstWhere((a) => a.id == operation.accountId);
-      if ((operation.value >= account.balance &&
-              account.type != AccountType.credit) ||
-          (operation.value <= account.balance)) {
+      if (operation.value > account.balance &&
+              account.type != AccountType.credit) {
         showToast(context, 'На счете недостаточно средств');
         return;
       }
