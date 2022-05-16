@@ -124,7 +124,7 @@ class _AddIncomePageState extends State<AddIncomePage> {
         return realAccounts[0].name;
       } else {
         operation.accountId = -1;
-        return 'Счет списания';
+        return 'Счет начисления';
       }
     } else {
       return realAccounts.firstWhere((e) => e.id == operation.accountId).name;

@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class ApiService {
-  static const String _baseUrl = 'https://finclever.azurewebsites.net/api';
+  static const String _baseUrl = 'http://denkov-001-site1.ftempurl.com/api';
   static const String _debugBaseUrl = 'https://192.168.0.248:5001/api';
 
   String? token;
