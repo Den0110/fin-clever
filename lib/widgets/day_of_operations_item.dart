@@ -1,19 +1,11 @@
+import 'package:fin_clever/bloc/day_entry.dart';
 import 'package:fin_clever/fin_clever_icons_icons.dart';
-import 'package:fin_clever/models/operation.dart';
+import 'package:fin_clever/data/models/operation.dart';
 import 'package:fin_clever/utils/date.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../utils/constants.dart';
 import 'options_dialog.dart';
-
-class DayEntry {
-  DateTime date;
-  final List<Operation> operations;
-  bool isFirstDayOfMonth = false;
-  String? recommendation;
-
-  DayEntry(this.date, this.operations);
-}
 
 class DayOfOperationsItem extends StatelessWidget {
   const DayOfOperationsItem(

@@ -1,7 +1,7 @@
-import 'package:fin_clever/models/operation.dart';
-import 'package:fin_clever/models/provider/operations.dart';
-import 'package:fin_clever/models/provider/portfolio_info.dart';
-import 'package:fin_clever/services/firebase_service.dart';
+import 'package:fin_clever/data/models/operation.dart';
+import 'package:fin_clever/data/models/provider/operations.dart';
+import 'package:fin_clever/data/models/provider/portfolio_info.dart';
+import 'package:fin_clever/data/services/firebase_service.dart';
 import 'package:fin_clever/utils/constants.dart';
 import 'package:fin_clever/utils/helper.dart';
 import 'package:fin_clever/widgets/junk_categories_selector.dart';
@@ -9,8 +9,8 @@ import 'package:fin_clever/widgets/title_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../fin_clever_icons_icons.dart';
-import '../models/provider/accounts.dart';
-import '../models/provider/current_user.dart';
+import '../data/models/provider/accounts.dart';
+import '../data/models/provider/current_user.dart';
 import '../widgets/caption.dart';
 import '../widgets/text_input.dart';
 

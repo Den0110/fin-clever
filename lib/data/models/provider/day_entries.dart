@@ -1,4 +1,4 @@
-import 'package:fin_clever/widgets/day_of_operations_item.dart';
+import 'package:fin_clever/bloc/day_entry.dart';
 import 'package:flutter/material.dart';
 
 class DayEntries extends ChangeNotifier {

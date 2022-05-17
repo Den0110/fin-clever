@@ -1,5 +1,5 @@
+import 'package:fin_clever/data/services/user_service.dart';
 import 'package:flutter/material.dart';
-import '../../services/user_service.dart';
 import '../app_user.dart';
 
 class CurrentUser extends ChangeNotifier {

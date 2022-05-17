@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:fin_clever/models/app_user.dart';
+import 'package:fin_clever/data/models/app_user.dart';
 
 import 'api_service.dart';
 

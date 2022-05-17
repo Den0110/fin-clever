@@ -1,8 +1,8 @@
-import 'package:fin_clever/models/app_user.dart';
-import 'package:fin_clever/models/operation.dart';
+import 'package:fin_clever/data/models/app_user.dart';
+import 'package:fin_clever/data/models/operation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/provider/current_user.dart';
+import '../data/models/provider/current_user.dart';
 import 'expense_type_item.dart';
 
 class JunkCategorySelector extends StatefulWidget {

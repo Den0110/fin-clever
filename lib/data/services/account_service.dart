@@ -1,6 +1,6 @@
 import 'dart:convert';
-import 'package:fin_clever/models/account.dart';
-import 'package:fin_clever/services/api_service.dart';
+import 'package:fin_clever/data/models/account.dart';
+import 'package:fin_clever/data/services/api_service.dart';
 import 'package:flutter/foundation.dart';
 
 class AccountService extends ApiService {

@@ -1,14 +1,14 @@
 import 'package:collection/collection.dart';
 import 'package:easy_debounce/easy_debounce.dart';
-import 'package:fin_clever/models/account.dart';
-import 'package:fin_clever/services/account_service.dart';
+import 'package:fin_clever/data/models/account.dart';
+import 'package:fin_clever/data/services/account_service.dart';
 import 'package:fin_clever/utils/format.dart';
 import 'package:fin_clever/widgets/cat_of_accounts_item.dart';
 import 'package:fin_clever/widgets/title_appbar.dart';
 import 'package:fin_clever/widgets/user_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
-import '../../models/provider/accounts.dart';
+import '../../data/models/provider/accounts.dart';
 import '../../utils/constants.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../widgets/loading.dart';

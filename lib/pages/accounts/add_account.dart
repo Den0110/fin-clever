@@ -1,6 +1,6 @@
 import 'package:fin_clever/fin_clever_icons_icons.dart';
-import 'package:fin_clever/models/account.dart';
-import 'package:fin_clever/services/account_service.dart';
+import 'package:fin_clever/data/models/account.dart';
+import 'package:fin_clever/data/services/account_service.dart';
 import 'package:fin_clever/utils/helper.dart';
 import 'package:fin_clever/widgets/title_appbar.dart';
 import 'package:fin_clever/widgets/select_account_type_dialog.dart';

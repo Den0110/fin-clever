@@ -1,6 +1,6 @@
 import 'package:ej_selector/ej_selector.dart';
-import 'package:fin_clever/models/account.dart';
-import 'package:fin_clever/models/operation.dart';
+import 'package:fin_clever/data/models/account.dart';
+import 'package:fin_clever/data/models/operation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import '../utils/constants.dart';

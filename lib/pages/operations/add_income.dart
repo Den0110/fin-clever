@@ -1,9 +1,9 @@
 import 'package:fin_clever/utils/date.dart';
 import 'package:fin_clever/fin_clever_icons_icons.dart';
-import 'package:fin_clever/models/account.dart';
-import 'package:fin_clever/models/operation.dart';
-import 'package:fin_clever/services/account_service.dart';
-import 'package:fin_clever/services/operation_service.dart';
+import 'package:fin_clever/data/models/account.dart';
+import 'package:fin_clever/data/models/operation.dart';
+import 'package:fin_clever/data/services/account_service.dart';
+import 'package:fin_clever/data/services/operation_service.dart';
 import 'package:fin_clever/utils/helper.dart';
 import 'package:fin_clever/widgets/title_appbar.dart';
 import 'package:fin_clever/widgets/operation_category_selector.dart';
@@ -15,7 +15,7 @@ import 'package:fin_clever/widgets/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../utils/constants.dart';
-import '../../models/provider/accounts.dart';
+import '../../data/models/provider/accounts.dart';
 import '../../widgets/button.dart';
 
 class AddIncomePage extends StatefulWidget {

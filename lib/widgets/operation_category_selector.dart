@@ -1,4 +1,4 @@
-import 'package:fin_clever/models/operation.dart';
+import 'package:fin_clever/data/models/operation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'expense_type_item.dart';

@@ -54,6 +54,7 @@ dependencies:
   pretty_dio_logger: ^1.1.1
   syncfusion_flutter_charts: ^19.4.53
   cached_network_image: ^3.2.0
+  flutter_bloc: ^8.0.0
 
 dev_dependencies:
   flutter_test:

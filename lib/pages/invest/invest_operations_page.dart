@@ -5,8 +5,8 @@ import 'package:fin_clever/widgets/title_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../utils/constants.dart';
-import '../../models/invest/invest_operation.dart';
-import '../../services/portfolio_service.dart';
+import '../../data/models/invest/invest_operation.dart';
+import '../../data/services/portfolio_service.dart';
 import '../../widgets/invest_operation_item.dart';
 import '../../widgets/loading.dart';
 

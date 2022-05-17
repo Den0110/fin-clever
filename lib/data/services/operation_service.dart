@@ -1,6 +1,6 @@
-import 'package:fin_clever/services/api_service.dart';
+import 'package:fin_clever/data/services/api_service.dart';
 import 'package:flutter/foundation.dart';
-import 'package:fin_clever/models/operation.dart';
+import 'package:fin_clever/data/models/operation.dart';
 import 'dart:convert';
 
 class OperationService extends ApiService {

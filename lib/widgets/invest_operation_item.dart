@@ -3,7 +3,7 @@ import 'package:fin_clever/utils/format.dart';
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';
 import '../fin_clever_icons_icons.dart';
-import '../models/invest/invest_operation.dart';
+import '../data/models/invest/invest_operation.dart';
 import 'options_dialog.dart';
 
 class InvestDayEntry {

@@ -1,6 +1,11 @@
 import 'dart:io';
-import 'package:fin_clever/models/app_user.dart';
-import 'package:fin_clever/models/provider/portfolio_info.dart';
+import 'package:fin_clever/data/models/app_user.dart';
+import 'package:fin_clever/data/models/provider/accounts.dart';
+import 'package:fin_clever/data/models/provider/current_user.dart';
+import 'package:fin_clever/data/models/provider/day_entries.dart';
+import 'package:fin_clever/data/models/provider/operations.dart';
+import 'package:fin_clever/data/models/provider/portfolio_info.dart';
+import 'package:fin_clever/data/services/user_service.dart';
 import 'package:fin_clever/pages/home_page.dart';
 import 'package:fin_clever/pages/login_page.dart';
 import 'package:flutter/foundation.dart';
@@ -9,15 +14,10 @@ import 'package:flutter/services.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'models/provider/current_user.dart';
-import 'models/provider/day_entries.dart';
 import 'utils/constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'models/provider/accounts.dart';
-import 'models/provider/operations.dart';
-import 'services/user_service.dart';
 
 class DebugHttpOverrides extends HttpOverrides {
   @override

@@ -1,5 +1,5 @@
+import 'package:fin_clever/utils/date.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../../utils/date.dart';
 
 part 'history_item.g.dart';
 

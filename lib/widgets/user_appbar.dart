@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fin_clever/models/app_user.dart';
-import 'package:fin_clever/models/provider/current_user.dart';
+import 'package:fin_clever/data/models/app_user.dart';
+import 'package:fin_clever/data/models/provider/current_user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/src/provider.dart';
 import '../utils/constants.dart';

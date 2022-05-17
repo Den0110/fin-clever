@@ -21,7 +21,7 @@ class ApiService {
         "accept": "application/json",
         "Authorization": "Bearer $token",
       },
-      baseUrl: kReleaseMode ? _baseUrl : _debugBaseUrl,
+      baseUrl: !kReleaseMode ? _baseUrl : _debugBaseUrl,
     ));
     dio!.interceptors.add(PrettyDioLogger(
       requestHeader: true,

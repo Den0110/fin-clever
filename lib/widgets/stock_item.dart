@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fin_clever/fin_clever_icons_icons.dart';
-import 'package:fin_clever/models/invest/stock.dart';
+import 'package:fin_clever/data/models/invest/stock.dart';
 import 'package:fin_clever/utils/format.dart';
 import 'package:flutter/material.dart';
 import '../utils/constants.dart';

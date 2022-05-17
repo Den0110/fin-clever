@@ -1,4 +1,4 @@
-import 'package:fin_clever/models/invest/stock.dart';
+import 'package:fin_clever/data/models/invest/stock.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 import 'history_item.dart';

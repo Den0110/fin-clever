@@ -1,4 +1,4 @@
-import 'package:fin_clever/models/account.dart';
+import 'package:fin_clever/data/models/account.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../utils/constants.dart';

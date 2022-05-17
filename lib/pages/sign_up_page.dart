@@ -1,12 +1,12 @@
-import 'package:fin_clever/models/app_user.dart';
-import 'package:fin_clever/models/provider/current_user.dart';
+import 'package:fin_clever/data/models/app_user.dart';
+import 'package:fin_clever/data/models/provider/current_user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../fin_clever_icons_icons.dart';
-import '../services/firebase_service.dart';
-import '../services/user_service.dart';
+import '../data/services/firebase_service.dart';
+import '../data/services/user_service.dart';
 import '../utils/constants.dart';
 import '../utils/helper.dart';
 import '../widgets/button.dart';
